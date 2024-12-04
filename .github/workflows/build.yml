@@ -3,10 +3,10 @@ name: Build LuaJIT
 on:
   push:
     branches:
-      - main
+      - v2.1
   pull_request:
     branches:
-      - main
+      - v2.1
 
 jobs:
   build:
