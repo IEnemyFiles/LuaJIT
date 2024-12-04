@@ -1,0 +1,46 @@
+name: Build LuaJIT
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Install required tools
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential gcc
+
+      # Clone LuaJIT repository (if needed)
+      - name: Clone LuaJIT Source Code
+        run: git clone https://github.com/LuaJIT/LuaJIT.git LuaJIT
+
+      # Build LuaJIT
+      - name: Build LuaJIT
+        run: |
+          cd LuaJIT
+          make clean
+          make
+
+      # Optionally, test the build (replace with actual test commands)
+      - name: Test LuaJIT
+        run: |
+          cd LuaJIT
+          ./src/luajit -e 'print("LuaJIT built successfully!")'
+
+      # Optionally, upload the artifact
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: LuaJIT-Binaries
+          path: LuaJIT/src/luajit
